@@ -1,0 +1,19 @@
+{
+  "name": "autocompleteDropdown.js",
+  "version": "1.0.0",
+  "homepage": "",
+  "description": "Search through a dropdown and add additional items.",
+  "authors": [
+    "Lee Jones <mail@leejones.me.uk> (http://leejones.me.uk)",
+  ],
+  "main": "jquery.autocompleteDropdown.min.js",
+  "license": "MIT",
+  "keywords" : ["autocomplete", "dropdown", "select", "search"],
+  "ignore": [
+    ".jshintrc",
+    "**/*.txt"
+  ],
+  "dependencies": {
+    "jquery": ">=1.7"
+  }
+}
