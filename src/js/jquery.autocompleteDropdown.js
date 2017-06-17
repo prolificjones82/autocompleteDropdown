@@ -1,28 +1,28 @@
 /*
 * AUTOCOMPLETE DROPDOWN - Use dropdowns as an autocomplete box, with the ability to add new options
-* Version: 1.0.0
-* License: Creative Commons Attribution 3.0 Unported - CC BY 3.0
-* http://creativecommons.org/licenses/by/3.0/
-* This software may be used freely on commercial and non-commercial projects with attribution to the author/copyright holder.
-* Author: Lee Jones
+* Version: 0.0.1 (IN DEVELOPMENT)
+* License: MIT
+* Author: Lee Jones <mail@leejones.me.uk>
+* Website: http://leejones.me.uk/
 * Copyright 2017 Lee Jones, All Rights Reserved
 */
 
 (function($) {
 
-	function SearchSelect()
+	function AutocompleteDropdown()
 	{
 		this.hideOriginal = true,
 		this.customPlaceholderText = false,
-		this.wrapperClass = 'search-select',
+		this.wrapperClass = 'autocomplete-dropdown',
 		this.inputClass = false,
 		this.onChange = null,
-		this.allowAdditions = false,
-		this.noResultsText = 'No results found';
+		this.allowAdditions = true,
+		this.noResultsText = 'No results found',
+		this.onSelect = null;
 	}
 
-	SearchSelect.prototype = {
-		constructor: SearchSelect,
+	AutocompleteDropdown.prototype = {
+		constructor: AutocompleteDropdown,
 		instances: {},
 		init: function(domNode, settings)
 		{
@@ -30,6 +30,7 @@
 			$.extend(self, settings);
 			self.isTouch = 'ontouchend' in document;
 			self.$select = $(domNode);
+			dataSettings = self.$select.data() || {}
 			self.id = domNode.id;
 			self.name = domNode.name;
 			self.options = [];
@@ -65,6 +66,9 @@
 						self.focusIndex = i;
 					}
 				});
+
+				window.console.log(dataSettings);
+
 				self.render();
 			}
 		},
@@ -74,13 +78,13 @@
 			var self = this,
 				touchClass = self.isTouch && self.nativeTouch ? ' touch' : '',
 				disabledClass = self.disabled ? ' disabled' : '',
-				hideSelect = self.hideOriginal ? 'style="display:none;"' : '',
+				hideSelect = self.hideOriginal ? 'class="old"' : '',
 				label = self.customPlaceholderText ? self.customPlaceholderText : self.hasLabel ? self.label : '',
 				inputClass = self.inputClass ? self.inputClass : '';
 			
 			self.$container = self.$select.wrap('<div class="'+self.wrapperClass+disabledClass+touchClass+'"><div '+hideSelect+' /></div>').parent().parent();
 			self.$searchbox = $('<input type="text" class="'+inputClass+'" placeholder="'+label+'" />').appendTo(self.$container);
-			self.$searchResults = $('<div><ul /></div>').appendTo(self.$container);
+			self.$searchResults = $('<div class="results"><ul /></div>').appendTo(self.$container);
 			self.$list = self.$searchResults.find('ul');
 			if (self.selected)
 			{
@@ -111,7 +115,7 @@
 		{
 			var	self = this;
 
-			self.$container.on('click.searchSelect', function()
+			self.$container.on('click.autocompleteDropdown', function()
 			{
 				self.$select.focus();
 			});
@@ -124,9 +128,9 @@
 						value = $selected.val();
 						
 					self.$searchbox.val(title);
-					if(typeof self.onChange === 'function')
+					if(typeof self.onSelect === 'function')
 					{
-						self.onChange.call(self.$select[0],{
+						self.onSelect.call(self.$select[0],{
 							title: title, 
 							value: value
 						});
@@ -148,11 +152,15 @@
 			var self = this;
 
 			self.$searchbox.on({
-				'focus.searchSelect': function(){
+				'focus.autocompleteDropdown': function(){
 					self.$container.addClass('focus');
 					self.inFocus = true;
 				},
-				'keyup.searchSelect': function()
+				'blur.autocompleteDropdown': function(){
+					self.$container.removeClass('focus');
+					self.inFocus = false;
+				},
+				'keyup.autocompleteDropdown': function()
 				{
 					self.query = self.$searchbox.val().toUpperCase();
 					if (self.query.length !== 0)
@@ -174,7 +182,7 @@
 			self.$container
 				.add(self.$select)
 				.add(self.$searchbox)
-				.off('.searchSelect');
+				.off('.autocompleteDropdown');
 		},
 
 		open: function()
@@ -233,13 +241,14 @@
 					$('<li data-value="'+this.value+'">'+this.title+'</li>').appendTo(self.$searchResults.find('ul'));
 				});
 			}
-			else if (self.allowAdditions)
+			else if (self.allowAdditions === false || dataSettings.allowAdditions === false)
 			{
-				$('<li>Add "'+self.$searchbox.val()+'"</li>').appendTo(self.$searchResults.find('ul'));
+				var noresults = self.noResultsText || dataSettings.noResultsText;
+				$('<li>'+noresults+'</li>').appendTo(self.$searchResults.find('ul'));
 			}
 			else
 			{
-				$('<li>'+self.noResultsText+'</li>').appendTo(self.$searchResults.find('ul'));
+				$('<li>Add "'+self.$searchbox.val()+'"</li>').appendTo(self.$searchResults.find('ul'));
 			}
 
 			self.$results = self.$list.find('li');
@@ -308,8 +317,8 @@
 
 	var instantiate = function(domNode, settings)
 	{
-		domNode.id = !domNode.id ? 'SearchSelect'+rand() : domNode.id;
-		var instance = new SearchSelect();
+		domNode.id = !domNode.id ? 'AutocompleteDropdown'+rand() : domNode.id;
+		var instance = new AutocompleteDropdown();
 		if(!instance.instances[domNode.id])
 		{
 			instance.instances[domNode.id] = instance;
@@ -321,7 +330,7 @@
 		return ('00000'+(Math.random()*16777216<0).toString(16)).substr(-6).toUpperCase();
 	};
 	
-	$.fn.searchSelect = function()
+	$.fn.autocompleteDropdown = function()
 	{
 		var args = arguments,
 			dataReturn = [],
@@ -331,7 +340,7 @@
 		{
 			if(args && typeof args[0] === 'string')
 			{
-				var data = SearchSelect.prototype.instances[this.id][args[0]](args[1], args[2]);
+				var data = AutocompleteDropdown.prototype.instances[this.id][args[0]](args[1], args[2]);
 				if (data)
 				{
 					dataReturn.push(data);
@@ -372,7 +381,7 @@
 			}
 		}
 		
-		$('select.search-select').each(function() {
+		$('select.autocomplete').each(function() {
 			var json = $(this).attr('data-settings'),
 				settings = json ? $.parseJSON(json) : {}; 
 			instantiate(this, settings);

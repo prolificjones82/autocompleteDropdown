@@ -1,4 +1,2 @@
-dist/tests/*
-tests/*
+config.codekit3
 !.gitignore
-*.codekit3
