@@ -1,2 +1,5 @@
 config.codekit3
 !.gitignore
+*/dist/index.html
+*/dist/LICENSE
+*/README.html

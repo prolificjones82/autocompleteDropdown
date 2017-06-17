@@ -1,5 +1,5 @@
-dist/tests/*
-tests/*
-!config.codekit3
+config.codekit3
 !.gitignore
-dist/index.html
+*/dist/index.html
+*/dist/LICENSE
+*/README.html
