@@ -17,6 +17,5 @@ Thumbs.db
 *.codekit
 scss/.sass-cache/*
 
-*/dist/index.html
 */dist/LICENSE
 */README.html
