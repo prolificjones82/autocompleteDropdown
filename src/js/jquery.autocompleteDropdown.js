@@ -12,7 +12,6 @@
 
 	function AutocompleteDropdown()
 	{
-		this.hideOriginal = true,
 		this.customPlaceholderText = false,
 		this.wrapperClass = 'autocomplete-dropdown',
 		this.inputClass = false,
@@ -79,11 +78,10 @@
 			var self = this,
 				touchClass = self.isTouch && self.nativeTouch ? ' touch' : '',
 				disabledClass = self.disabled ? ' disabled' : '',
-				hideSelect = self.hideOriginal ? 'class="old"' : '',
 				label = self.customPlaceholderText ? self.customPlaceholderText : self.hasLabel ? self.label : '',
 				inputClass = self.inputClass ? self.inputClass : '';
 			
-			self.$container = self.$select.wrap('<div class="'+self.wrapperClass+disabledClass+touchClass+'"><div '+hideSelect+' /></div>').parent().parent();
+			self.$container = self.$select.wrap('<div class="'+self.wrapperClass+disabledClass+touchClass+'"><div class="old" /></div>').parent().parent();
 			self.$searchbox = $('<input type="text" class="'+inputClass+'" placeholder="'+label+'" />').appendTo(self.$container);
 			self.$searchResults = $('<div class="results"><ul /></div>').appendTo(self.$container);
 			self.$list = self.$searchResults.find('ul');

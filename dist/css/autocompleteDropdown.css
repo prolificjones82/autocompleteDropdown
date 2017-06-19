@@ -1,6 +1,7 @@
 .autocomplete-dropdown {
   position: relative;
-  width: 400px;
+  width: 100%;
+  max-width: 400px;
   font-family: sans-serif;
   box-sizing: border-box; }
   .autocomplete-dropdown > * {
