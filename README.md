@@ -1,7 +1,6 @@
 # Autocomplete Dropdown
 
 ## What is it?
----
 
 This is a small jQuery plugin to designed to allow you to search through huge dropdown lists such as country lists.
 
@@ -32,9 +31,30 @@ To add autocompletion to any of your select dropdowns simply give them a class o
 
 On form submission the plugin will send across the options value the same as a standard dropdown. If you have added an option using the *Add New* function that option will send the text you had entered when you clicked *Add*.
 
+PRE SELECTING DOCS
+
+PLACEHOLDER TEXT DOCS
+
 ### Plugin Options
+--
 
 Most options have to be set globally when initiating the plugin, however a select few can be set on a select dropdown itself using _data-*_ attributes.
+
+```javascript
+$('select').autocompleteDropdown({
+	customPlaceholderText: false,
+	wrapperClass: 'autocomplete-dropdown',
+	inputClass: 'acdd-input',
+	allowAdditions: true,
+	noResultsText: 'No results found',
+	onChange: function() {
+		window.console.log('select has changed');
+	},
+	onSelect: function() {
+		window.console.log('an option has been selected');
+	},
+});
+```
 
 FEATURES TABLE GOES HERE
 
