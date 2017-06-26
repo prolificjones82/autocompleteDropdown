@@ -15,9 +15,9 @@
 		this.customPlaceholderText = false,
 		this.wrapperClass = 'autocomplete-dropdown',
 		this.inputClass = false,
-		this.onChange = null,
 		this.allowAdditions = true,
 		this.noResultsText = 'No results found',
+		this.onChange = null,
 		this.onSelect = null;
 	}
 
