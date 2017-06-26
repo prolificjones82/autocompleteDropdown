@@ -16,7 +16,7 @@
 		"uuidString": "5550D648-21B7-4D6D-9B14-7A419B74B7AA"
 		}
 	],
-"creatorBuild": "25813",
+"creatorBuild": "25849",
 "files": {
 	"\/.gitignore": {
 		"ft": 8192,
@@ -36,12 +36,6 @@
 		"ft": 65536,
 		"oA": 1,
 		"oAP": "\/dist\/dist",
-		"oF": 0
-		},
-	"\/index.html": {
-		"ft": 8192,
-		"oA": 2,
-		"oAP": "\/dist\/index.html",
 		"oF": 0
 		},
 	"\/LICENSE": {
@@ -2036,6 +2030,7 @@
 		},
 	"languageDefaultsUserDefined": [
 		],
+	"overrideExternalServerCSS": 0,
 	"previewPathAddition": "",
 	"skippedFoldersString": "log, _logs, logs, _cache, cache, \/storage\/framework\/sessions, node_modules",
 	"sourceFolderName": "src",

@@ -1,6 +1,6 @@
 /*
 * AUTOCOMPLETE DROPDOWN - Use dropdowns as an autocomplete box, with the ability to add new options
-* Version: 0.0.1 (IN DEVELOPMENT)
+* Version: 1.0
 * License: MIT
 * Author: Lee Jones <mail@leejones.me.uk>
 * Website: http://leejones.me.uk/
