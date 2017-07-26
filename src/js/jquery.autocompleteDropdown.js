@@ -1,28 +1,23 @@
 /*
-* AUTOCOMPLETE DROPDOWN - Use dropdowns as an autocomplete box, with the ability to add new options
-* Version: 1.0
-* License: MIT
-* Author: Lee Jones <mail@leejones.me.uk>
-* Website: http://leejones.me.uk/
-* Copyright 2017 Lee Jones, All Rights Reserved
+	Search Select v2
+	Lee Jones (May 2017)
+	Requires jquery.ui
 */
-
 
 (function($) {
 
-	function AutocompleteDropdown()
+	function SearchSelect()
 	{
+		this.hideOriginal = true,
 		this.customPlaceholderText = false,
-		this.wrapperClass = 'autocomplete-dropdown',
+		this.wrapperClass = 'search-select',
 		this.inputClass = false,
-		this.allowAdditions = true,
-		this.noResultsText = 'No results found',
 		this.onChange = null,
-		this.onSelect = null;
+		this.enableDebugging = false; // jshint ignore:line
 	}
 
-	AutocompleteDropdown.prototype = {
-		constructor: AutocompleteDropdown,
+	SearchSelect.prototype = {
+		constructor: SearchSelect,
 		instances: {},
 		init: function(domNode, settings)
 		{
@@ -30,13 +25,17 @@
 			$.extend(self, settings);
 			self.isTouch = 'ontouchend' in document;
 			self.$select = $(domNode);
-			dataSettings = self.$select.data() || {}
+			self.multiSelect = self.$select.context.multiple;
 			self.id = domNode.id;
 			self.name = domNode.name;
 			self.options = [];
 			self.$options = self.$select.find('option');
-			if(self.$select.is(':disabled')){
+			self.selected = [];
+			if(self.$select.is(':disabled')) {
 				self.disabled = true;
+			}
+			if(self.$select.attr('readonly')) {
+				self.readonly = true;
 			}
 			if (self.$options.length)
 			{
@@ -57,18 +56,17 @@
 							selected: $option.is(':selected')
 						});
 					}
-					if($option.is(':selected') && !$option.hasClass('label'))
+					if($option.context.selected && !$option.hasClass('label'))
 					{
-						self.selected = {
+						var selectedData = {
 							index: i,
+							value: $option.val(),
 							title: $option.text()
-						};
+						}
+						self.selected.push(selectedData);
 						self.focusIndex = i;
 					}
 				});
-
-				window.console.log(dataSettings);
-
 				self.render();
 			}
 		},
@@ -78,16 +76,43 @@
 			var self = this,
 				touchClass = self.isTouch && self.nativeTouch ? ' touch' : '',
 				disabledClass = self.disabled ? ' disabled' : '',
+				readonlyClass = self.readonly ? ' readonly' : '',
+				hideSelect = self.hideOriginal ? 'style="display:none;"' : 'style="display:block;"',
 				label = self.customPlaceholderText ? self.customPlaceholderText : self.hasLabel ? self.label : '',
-				inputClass = self.inputClass ? self.inputClass : '';
+				inputClass = self.inputClass ? self.inputClass : '',
+				multiSelectClass = self.multiSelect ? ' multi-select' : '',
+				selectedValues = [];
 			
-			self.$container = self.$select.wrap('<div class="'+self.wrapperClass+disabledClass+touchClass+'"><div class="old" /></div>').parent().parent();
-			self.$searchbox = $('<input type="text" class="'+inputClass+'" placeholder="'+label+'" />').appendTo(self.$container);
-			self.$searchResults = $('<div class="results"><ul /></div>').appendTo(self.$container);
+			self.$container = self.$select.wrap('<div class="'+self.wrapperClass+disabledClass+touchClass+readonlyClass+multiSelectClass+'"><div '+hideSelect+' /></div>').parent().parent();
+			self.$searchbox = $('<input type="text" class="'+inputClass+'" placeholder="'+label+'" '+readonlyClass+' autocomplete="false" />').appendTo(self.$container);
+			self.$searchResults = $('<div><ul /></div>').appendTo(self.$container);
 			self.$list = self.$searchResults.find('ul');
-			if (self.selected)
+
+			if (self.selected.length > 0)
 			{
-				self.$searchbox.val(self.selected.title);
+				if (self.multiSelect)
+				{
+					$.each(self.selected, function(k,v) {
+						selectedValues.push(' ' + v.title);
+					});
+
+					if (self.readonly)
+					{
+						self.$searchbox.val(selectedValues);
+					}
+					else
+					{
+						$.each(self.selected, function(k,v) {
+							self.$searchbox.parent().append('<span class="option-tag">'+v.title+' <span class="remove-tag" data-option-value="'+v.value+'"></span></span>');
+						});
+
+						self.tagClick();
+					}
+				}
+				else
+				{
+					self.$searchbox.val(self.selected[0].title);
+				}
 			}
 
 			self.bindHandlers();
@@ -114,7 +139,7 @@
 		{
 			var	self = this;
 
-			self.$container.on('click.autocompleteDropdown', function()
+			self.$container.on('click.searchSelect', function()
 			{
 				self.$select.focus();
 			});
@@ -127,9 +152,9 @@
 						value = $selected.val();
 						
 					self.$searchbox.val(title);
-					if(typeof self.onSelect === 'function')
+					if(typeof self.onChange === 'function')
 					{
-						self.onSelect.call(self.$select[0],{
+						self.onChange.call(self.$select[0],{
 							title: title, 
 							value: value
 						});
@@ -151,15 +176,11 @@
 			var self = this;
 
 			self.$searchbox.on({
-				'focus.autocompleteDropdown': function(){
+				'focus.searchSelect': function(){
 					self.$container.addClass('focus');
 					self.inFocus = true;
 				},
-				'blur.autocompleteDropdown': function(){
-					self.$container.removeClass('focus');
-					self.inFocus = false;
-				},
-				'keyup.autocompleteDropdown': function()
+				'keyup.searchSelect': function()
 				{
 					self.query = self.$searchbox.val().toUpperCase();
 					if (self.query.length !== 0)
@@ -181,7 +202,29 @@
 			self.$container
 				.add(self.$select)
 				.add(self.$searchbox)
-				.off('.autocompleteDropdown');
+				.off('.searchSelect');
+		},
+
+		tagClick: function()
+		{
+			var self = this,
+				removeTag		= self.$searchbox.siblings('.option-tag').children('.remove-tag'),
+				currentValue	= self.$select.val();
+
+
+			removeTag.on({
+				'click': function() {
+					var removeItem = $(this).data('option-value').toString();
+
+					currentValue = $.grep(currentValue, function(value) {
+						return value != removeItem;
+					});
+
+					self.$select.val(currentValue);
+
+					$(this).parent().remove();
+				}
+			});
 		},
 
 		open: function()
@@ -240,14 +283,13 @@
 					$('<li data-value="'+this.value+'">'+this.title+'</li>').appendTo(self.$searchResults.find('ul'));
 				});
 			}
-			else if (self.allowAdditions === false || dataSettings.allowAdditions === false)
+			else if (self.$select.data('autocomplete-add') != false)
 			{
-				var noresults = self.noResultsText || dataSettings.noResultsText;
-				$('<li>'+noresults+'</li>').appendTo(self.$searchResults.find('ul'));
+				$('<li>Add "'+self.$searchbox.val()+'"</li>').appendTo(self.$searchResults.find('ul'));
 			}
 			else
 			{
-				$('<li>Add "'+self.$searchbox.val()+'"</li>').appendTo(self.$searchResults.find('ul'));
+				self.close();
 			}
 
 			self.$results = self.$list.find('li');
@@ -257,12 +299,29 @@
 					var $this 		= $(this),
 						value 		= $this.data('value'),
 						text		= $this.text(),
-						searchText	= self.$searchbox.val();
+						searchText	= self.$searchbox.val(),
+						mutliSelect	= self.$select.context.multiple;
 					
 					if (value === '' || value === undefined)
 					{
 						$('<option value="'+searchText+'" selected></option>').appendTo(self.$select);
 						self.$searchbox.val(searchText);
+					}
+					else if (mutliSelect)
+					{
+						var currentValue = (self.$select.val() != null) ? self.$select.val() : [];
+
+						self.$searchbox.val('');
+						self.$searchbox.parent().append('<span class="option-tag">'+text+' <span class="remove-tag" data-option-value="'+value+'"></span></span>');
+						currentValue.push(value.toString());
+
+						$.each(currentValue, function(i,e) {
+							self.$select.children('option[value="'+e+'"]').prop('selected', true);
+						});
+
+						window.console.log(self.$select.val());
+
+						self.tagClick();
 					}
 					else
 					{
@@ -272,7 +331,7 @@
 
 					if(typeof self.onChange === 'function')
 					{
-						self.onChange.call(self.$select[0],{
+						self.onChange.call(self.$select[0], {
 							title: title, 
 							value: value
 						});
@@ -316,8 +375,8 @@
 
 	var instantiate = function(domNode, settings)
 	{
-		domNode.id = !domNode.id ? 'AutocompleteDropdown'+rand() : domNode.id;
-		var instance = new AutocompleteDropdown();
+		domNode.id = !domNode.id ? 'SearchSelect'+rand() : domNode.id;
+		var instance = new SearchSelect();
 		if(!instance.instances[domNode.id])
 		{
 			instance.instances[domNode.id] = instance;
@@ -329,7 +388,7 @@
 		return ('00000'+(Math.random()*16777216<0).toString(16)).substr(-6).toUpperCase();
 	};
 	
-	$.fn.autocompleteDropdown = function()
+	$.fn.searchSelect = function()
 	{
 		var args = arguments,
 			dataReturn = [],
@@ -339,7 +398,7 @@
 		{
 			if(args && typeof args[0] === 'string')
 			{
-				var data = AutocompleteDropdown.prototype.instances[this.id][args[0]](args[1], args[2]);
+				var data = SearchSelect.prototype.instances[this.id][args[0]](args[1], args[2]);
 				if (data)
 				{
 					dataReturn.push(data);
@@ -380,7 +439,7 @@
 			}
 		}
 		
-		$('select.autocomplete').each(function() {
+		$('select.search-select').each(function() {
 			var json = $(this).attr('data-settings'),
 				settings = json ? $.parseJSON(json) : {}; 
 			instantiate(this, settings);

@@ -3,33 +3,6 @@ $white: #fafafa;
 $lightgrey: #cccccc;
 $highlight: #0083ff;
 
-// .ui-autocomplete {
-// 	float: left;
-// 	background-color: $white;
-// 	border: solid 1px $lightgrey;
-// 	margin: 0;
-// 	padding: 0;
-// 	transition: none !important;
-
-// 	li {
-// 		list-style: none;
-
-// 		a {
-// 			text-decoration: none;
-// 			display: block;
-// 			cursor: pointer;
-// 			padding: 5px 10px;
-// 			// line-height: $input-line-height;
-// 			font-size: 16px;
-
-// 			&:hover {
-// 				background-color: $highlight;
-// 				color: $white;
-// 			}
-// 		}
-// 	}
-// }
-
 .autocomplete-dropdown {
 	position: relative;
 	width: 100%;
@@ -90,6 +63,45 @@ $highlight: #0083ff;
 	&.open {
 		.results {
 			display: block;
+		}
+	}
+	
+	.option-tag {
+		display: inline-block;
+		font-size: em-calc(11);
+		background-color: $highlight;
+		color: $white;
+		padding: em-calc(5 10);
+		margin-right: em-calc(5);
+
+		.remove-tag {
+			display: inline-block;
+			width: em-calc(11);
+			height: em-calc(11);
+			position: relative;
+			z-index: 10;
+			cursor: pointer;
+			margin-left: em-calc(5);
+
+			&:before,
+			&:after {
+				content: " ";
+				display: block;
+				width: em-calc(11);
+				height: em-calc(1);
+				background-color: $white;
+				position: absolute;
+				top: 50%;
+				left: em-calc(5);
+			}
+
+			&:before {
+				transform: translate(-50%,0) rotate(45deg);
+			}
+			
+			&:after {
+				transform: translate(-50%,0) rotate(-45deg);
+			}
 		}
 	}
 }
