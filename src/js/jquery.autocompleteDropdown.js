@@ -290,9 +290,9 @@
 					$('<li data-value="'+this.value+'">'+this.title+'</li>').appendTo(self.$searchResults.find('ul'));
 				});
 			}
-			else if (self.allowAdditions === false || dataSettings.allowAdditions === false)
+			else if (self.allowAdditions === false || dataSettings.allowadditions === false)
 			{
-				var noresults = self.noResultsText || dataSettings.noResultsText;
+				var noresults = self.noResultsText || dataSettings.noresultstext;
 				$('<li>'+noresults+'</li>').appendTo(self.$searchResults.find('ul'));
 			}
 			else
