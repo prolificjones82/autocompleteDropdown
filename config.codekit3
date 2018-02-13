@@ -21,9 +21,9 @@
 	"\/.gitignore": {
 		"cB": 0,
 		"ft": 8192,
-		"oA": 2,
+		"oA": 1,
 		"oAP": "\/dist\/.gitignore",
-		"oF": 0
+		"oF": 1
 		},
 	"\/bower.json": {
 		"ft": 524288,
@@ -42,9 +42,9 @@
 	"\/index.html": {
 		"cB": 0,
 		"ft": 8192,
-		"oA": 2,
+		"oA": 1,
 		"oAP": "\/dist\/index.html",
-		"oF": 0
+		"oF": 1
 		},
 	"\/LICENSE": {
 		"cB": 0,
@@ -104,7 +104,7 @@
 	"displayValue": "autocompleteDropdown.local",
 	"displayValueWasSetByUser": 0,
 	"iconImageName": "meme-ariel",
-	"lastBuiltDate": 540230111
+	"lastBuiltDate": 540230991
 	},
 "projectSettings": {
 	"abortBuildOnError": 1,
