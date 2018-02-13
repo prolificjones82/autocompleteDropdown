@@ -3,9 +3,11 @@
   width: 100%;
   max-width: 400px;
   font-family: sans-serif;
-  box-sizing: border-box; }
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box; }
   .autocomplete-dropdown > * {
-    box-sizing: border-box; }
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box; }
   .autocomplete-dropdown .old {
     display: none; }
   .autocomplete-dropdown input {
@@ -39,4 +41,34 @@
           color: #fafafa; }
   .autocomplete-dropdown.open .results {
     display: block; }
+  .autocomplete-dropdown .option-tag {
+    display: inline-block;
+    font-size: em-calc(11);
+    background-color: #0083ff;
+    color: #fafafa;
+    padding: em-calc(5 10);
+    margin-right: em-calc(5); }
+    .autocomplete-dropdown .option-tag .remove-tag {
+      display: inline-block;
+      width: em-calc(11);
+      height: em-calc(11);
+      position: relative;
+      z-index: 10;
+      cursor: pointer;
+      margin-left: em-calc(5); }
+      .autocomplete-dropdown .option-tag .remove-tag:before, .autocomplete-dropdown .option-tag .remove-tag:after {
+        content: " ";
+        display: block;
+        width: em-calc(11);
+        height: em-calc(1);
+        background-color: #fafafa;
+        position: absolute;
+        top: 50%;
+        left: em-calc(5); }
+      .autocomplete-dropdown .option-tag .remove-tag:before {
+        -webkit-transform: translate(-50%, 0) rotate(45deg);
+                transform: translate(-50%, 0) rotate(45deg); }
+      .autocomplete-dropdown .option-tag .remove-tag:after {
+        -webkit-transform: translate(-50%, 0) rotate(-45deg);
+                transform: translate(-50%, 0) rotate(-45deg); }
 /*# sourceMappingURL=autocompleteDropdown.css.map */
