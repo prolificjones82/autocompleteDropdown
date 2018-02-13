@@ -39,6 +39,13 @@
 		"oAP": "\/dist\/dist",
 		"oF": 0
 		},
+	"\/index.html": {
+		"cB": 0,
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/dist\/index.html",
+		"oF": 0
+		},
 	"\/LICENSE": {
 		"cB": 0,
 		"ft": 8192,

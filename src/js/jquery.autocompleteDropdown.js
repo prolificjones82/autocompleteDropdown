@@ -59,6 +59,7 @@
 							selected: $option.is(':selected')
 						});
 					}
+					
 					if($option.is(':selected') && !$option.hasClass('label'))
 					{
 						self.selected = {
