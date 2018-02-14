@@ -2,7 +2,7 @@
 
 ## What is it?
 
-This is a small jQuery plugin to designed to allow you to search through huge dropdown lists such as country lists.
+This is a small jQuery plugin to designed to allow you to search through huge dropdown lists such as country lists in a typeahead style.
 
 An additional feature is the ability to add a value if that value doesn't exist in the dropdown, making it useful for all dropdowns!
 
@@ -44,14 +44,6 @@ To preselect a value is simple. When displaying the dropdown simply add the ```s
 </select>
 ```
 
-The other option is to add a global placeholder text, this is done when initiating the plugin itself.
-
-```javascript
-$('select').autocompleteDropdown({
-	customPlaceholderText: "Search...",
-});
-```
-
 ### Placeholder text
 ---
 
@@ -64,6 +56,13 @@ You can specify your placeholder text in a number of ways. The easiest way it to
 	<option value="something-else">Something Else</option>
 	<option value="another-thing">Another Thing</option>
 </select>
+```
+The other option is to add a global placeholder text, this is done when initiating the plugin itself.
+
+```javascript
+$('select').autocompleteDropdown({
+	customPlaceholderText: "Search...",
+});
 ```
 
 ### Plugin Options
