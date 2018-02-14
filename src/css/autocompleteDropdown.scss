@@ -67,32 +67,35 @@ $highlight: #0083ff;
 	}
 	
 	.option-tag {
-		display: inline-block;
-		font-size: em-calc(11);
+		display: block;
+		position: relative;
+		font-size: 14px;
 		background-color: $highlight;
 		color: $white;
-		padding: em-calc(5 10);
-		margin-right: em-calc(5);
+		padding: 5px 10px;
 
 		.remove-tag {
-			display: inline-block;
-			width: em-calc(11);
-			height: em-calc(11);
-			position: relative;
+			display: block;
+			width: 11px;
+			height: 11px;
+			position: absolute;
 			z-index: 10;
 			cursor: pointer;
-			margin-left: em-calc(5);
+			margin-left: 5px;
+			top: 50%;
+			right: 5px;
+			transform: translate(0, -50%);
 
 			&:before,
 			&:after {
 				content: " ";
 				display: block;
-				width: em-calc(11);
-				height: em-calc(1);
+				width: 11px;
+				height: 1px;
 				background-color: $white;
 				position: absolute;
 				top: 50%;
-				left: em-calc(5);
+				left: 5px;
 			}
 
 			&:before {
