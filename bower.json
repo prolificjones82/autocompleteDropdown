@@ -1,14 +1,23 @@
 {
-  "name": "autocompleteDropdown.js",
+  "name": "autocompleteDropdown",
   "version": "1.0.0",
-  "homepage": "",
-  "description": "Search through a dropdown and add additional items.",
+  "homepage": "https://github.com/prolificjones82/autocompleteDropdown",
+  "description": "Typeahead search through a dropdown and add additional items.",
   "authors": [
-    "Lee Jones <mail@leejones.me.uk> (http://leejones.me.uk)",
+    "Lee Jones <mail@leejones.me.uk> (http://leejones.me.uk)"
   ],
-  "main": "jquery.autocompleteDropdown.min.js",
+  "main": [
+    "./dist/js/jquery.autocompleteDropdown.min.js",
+    "./dist/css/jquery.autocompleteDropdown.css"
+  ],
   "license": "MIT",
-  "keywords" : ["autocomplete", "dropdown", "select", "search"],
+  "keywords" : [
+    "typeahead", 
+    "autocomplete", 
+    "dropdown", 
+    "select", 
+    "search"
+  ],
   "ignore": [
     ".jshintrc",
     "**/*.txt"
