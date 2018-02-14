@@ -2,10 +2,6 @@
 "AAInfo": "This is a CodeKit 3 project config file. MODIFYING THE CONTENTS OF THIS FILE IS A POOR LIFE DECISION. Doing so will cause CodeKit to crash and\/or corrupt your project. I know it looks like JSON, but it is *not*. Many numbers in this file are 64-bit long long bitFlags, which JSON does not support. These numbers *cannot* be treated as discrete values and if you attempt to parse this file as standard JSON with any public JSON parser, these values will be corrupted. This file is not backwards-compatible with CodeKit 1 or 2. For more information, see https:\/\/codekitapp.com\/",
 "buildSteps": [
 	{
-		"itemsToProcess": [
-			"\/src\/css\/autocompleteDropdown.scss",
-			"\/src\/js\/jquery.autocompleteDropdown.js"
-			],
 		"name": "New \"Process Certain Files\" Step",
 		"stepType": 0,
 		"uuidString": "A077D60C-D885-4C8C-B970-34525030604A"
@@ -21,9 +17,9 @@
 	"\/.gitignore": {
 		"cB": 0,
 		"ft": 8192,
-		"oA": 1,
+		"oA": 2,
 		"oAP": "\/dist\/.gitignore",
-		"oF": 1
+		"oF": 0
 		},
 	"\/bower.json": {
 		"ft": 524288,
@@ -44,7 +40,7 @@
 		"ft": 8192,
 		"oA": 2,
 		"oAP": "\/dist\/index.html",
-		"oF": 1
+		"oF": 0
 		},
 	"\/LICENSE": {
 		"cB": 0,
@@ -72,12 +68,12 @@
 		"uCM": 0
 		},
 	"\/src\/css\/autocompleteDropdown.scss": {
-		"aP": 1,
+		"aP": 0,
 		"bl": 0,
 		"dP": 10,
 		"dS": 0,
 		"ft": 4,
-		"ma": 1,
+		"ma": 0,
 		"oA": 0,
 		"oAP": "\/dist\/css\/autocompleteDropdown.css",
 		"oF": 0,
@@ -91,7 +87,7 @@
 		"oA": 0,
 		"oAP": "\/dist\/js\/jquery.autocompleteDropdown-min.js",
 		"oF": 0,
-		"sC": 0,
+		"sC": 1,
 		"tS": 0
 		}
 	},
@@ -104,7 +100,7 @@
 	"displayValue": "autocompleteDropdown.local",
 	"displayValueWasSetByUser": 0,
 	"iconImageName": "meme-ariel",
-	"lastBuiltDate": 540230991
+	"lastBuiltDate": 519388679
 	},
 "projectSettings": {
 	"abortBuildOnError": 1,
