@@ -7,12 +7,13 @@
     "Lee Jones <mail@leejones.me.uk> (http://leejones.me.uk)"
   ],
   "main": [
-    "./src/js/jquery.autocompleteDropdown.js",
-    "./src/css/autocompleteDropdown.scss"
+    "./build/js/jquery.autocompleteDropdown-min.js",
+    "./build/css/autocompleteDropdown.css"
   ],
   "license": "MIT",
   "keywords" : ["autocomplete", "dropdown", "select", "search"],
   "ignore": [
+    "config.codekit3",
     ".jshintrc",
     "**/*.txt"
   ],
