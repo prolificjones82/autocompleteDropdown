@@ -244,13 +244,15 @@
 
 			removeTag.on({
 				'click': function() {
-					var removeItem = $(this).data('option-value').toString();
-
+					var removeItem 	= $(this).data('option-value').toString();
+					var	option		= self.$select.children('option[value="' + removeItem + '"]');
+					
 					currentValue = $.grep(currentValue, function(value) {
 						return value != removeItem;
 					});
 
 					self.$select.val(currentValue);
+					option.prop('selected', false);
 
 					$(this).parent().remove();
 				}
@@ -348,15 +350,17 @@
 						var valueString		= (value === '' || value === undefined) ? searchText : text;
 
 						self.$searchbox.val('');
-						self.$searchbox.parent().append('<span class="option-tag">' + valueString + ' <span class="remove-tag" data-option-value="' + value + '"></span></span>');
-						currentValue.push(value.toString());
+						self.$searchbox.parent().append('<span class="option-tag">' + valueString + ' <span class="remove-tag" data-option-value="' + valueString + '"></span></span>');
+						
+						if (value != undefined) {
+							currentValue.push(value.toString());
+						}
 
 						$.each(currentValue, function(i,e) {
 							self.$select.children('option[value="'+e+'"]').prop('selected', true);
 						});
 
 						self.tagClick();
-						self.close();
 					}
 
 					if(typeof self.onChange === 'function')
