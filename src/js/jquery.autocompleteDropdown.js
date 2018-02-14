@@ -356,6 +356,7 @@
 						});
 
 						self.tagClick();
+						self.close();
 					}
 
 					if(typeof self.onChange === 'function')
