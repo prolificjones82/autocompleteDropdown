@@ -341,7 +341,11 @@
 					}
 					else
 					{
-						self.$select.val(value);
+						if (self.$select.val() != null && isMultiple) {
+							self.$select.val().push(value);
+						} else {
+							self.$select.val(value)
+						}
 						self.$searchbox.val(text);
 					}
 
