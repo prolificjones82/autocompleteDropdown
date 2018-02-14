@@ -31,7 +31,7 @@
 			self.isTouch = 'ontouchend' in document;
 			self.$select = $(domNode);
 			dataSettings = self.$select.data() || {}
-			self.multiSelect = self.$select.context.multiple;
+			isMultiple = (self.$select.context.multiple) ? true : false;
 			self.id = domNode.id;
 			self.name = domNode.name;
 			self.options = [];
@@ -84,7 +84,7 @@
 				readonlyClass = self.readonly ? ' readonly' : '',
 				label = self.customPlaceholderText ? self.customPlaceholderText : self.hasLabel ? self.label : '',
 				inputClass = self.inputClass ? self.inputClass : '',
-				multiSelectClass = self.multiSelect ? ' multi-select' : '',
+				multiSelectClass = isMultiple ? ' multi-select' : '',
 				selectedValues = [];
 			
 			self.$container = self.$select.wrap('<div class="'+self.wrapperClass+disabledClass+touchClass+readonlyClass+multiSelectClass+'"><div class="old" /></div>').parent().parent();
@@ -212,6 +212,28 @@
 				.add(self.$searchbox)
 				.off('.autocompleteDropdown');
 		},
+
+		tagClick: function()
+		{
+			var self = this,
+				removeTag		= self.$searchbox.siblings('.option-tag').children('.remove-tag'),
+				currentValue	= self.$select.val();
+
+
+			removeTag.on({
+				'click': function() {
+					var removeItem = $(this).data('option-value').toString();
+
+					currentValue = $.grep(currentValue, function(value) {
+						return value != removeItem;
+					});
+
+					self.$select.val(currentValue);
+
+					$(this).parent().remove();
+				}
+			});
+		},
 		
 		tagClick: function()
 		{
@@ -308,34 +330,32 @@
 					var $this 		= $(this),
 						value 		= $this.data('value'),
 						text		= $this.text(),
-						searchText	= self.$searchbox.val(),
-						mutliSelect	= self.$select.context.multiple;
+						searchText	= self.$searchbox.val();
 					
 					if (value === '' || value === undefined)
 					{
 						$('<option value="'+searchText+'" selected></option>').appendTo(self.$select);
 						self.$searchbox.val(searchText);
 					}
-					else if (mutliSelect)
+					else
 					{
-						var currentValue = (self.$select.val() != null) ? self.$select.val() : [];
+						self.$select.val(value);
+						self.$searchbox.val(text);
+					}
+
+					if (isMultiple) {
+						var currentValue 	= (self.$select.val() != null) ? self.$select.val() : [];
+						var valueString		= (value === '' || value === undefined) ? searchText : text;
 
 						self.$searchbox.val('');
-						self.$searchbox.parent().append('<span class="option-tag">'+text+' <span class="remove-tag" data-option-value="'+value+'"></span></span>');
+						self.$searchbox.parent().append('<span class="option-tag">' + valueString + ' <span class="remove-tag" data-option-value="' + value + '"></span></span>');
 						currentValue.push(value.toString());
 
 						$.each(currentValue, function(i,e) {
 							self.$select.children('option[value="'+e+'"]').prop('selected', true);
 						});
 
-						window.console.log(self.$select.val());
-
 						self.tagClick();
-					}
-					else
-					{
-						self.$select.val(value);
-						self.$searchbox.val(text);
 					}
 
 					if(typeof self.onChange === 'function')
