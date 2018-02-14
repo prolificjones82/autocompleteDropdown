@@ -2,7 +2,7 @@
 
 ## What is it?
 
-This is a small jQuery plugin to designed to allow you to search through huge dropdown lists such as country lists.
+This is a small jQuery plugin to designed to allow you to search through huge dropdown lists such as country lists in a typeahead style.
 
 An additional feature is the ability to add a value if that value doesn't exist in the dropdown, making it useful for all dropdowns!
 
