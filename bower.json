@@ -7,8 +7,8 @@
     "Lee Jones <mail@leejones.me.uk> (http://leejones.me.uk)"
   ],
   "main": [
-    "./dist/js/jquery.autocompleteDropdown.min.js",
-    "./dist/css/autocompleteDropdown.css"
+    "./src/js/jquery.autocompleteDropdown.js",
+    "./src/css/autocompleteDropdown.scss"
   ],
   "license": "MIT",
   "keywords" : ["autocomplete", "dropdown", "select", "search"],
